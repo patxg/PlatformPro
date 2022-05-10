@@ -87,4 +87,9 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
+    // Return Type Method
+    public int CoinCount()
+    { 
+    return _coins;
+    }
 }
