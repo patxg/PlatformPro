@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class ElevatorPanel : MonoBehaviour
 {
-    [SerializeField]private MeshRenderer _callButton;
-    // Required Coins
+    [SerializeField] private MeshRenderer _callButton;
     [SerializeField] private int _requiredCoins = 4;
-
     private Elevator _elevator;
+    private bool _elevatorCalled = false;
 
     private void Start()
     {
@@ -25,7 +24,15 @@ public class ElevatorPanel : MonoBehaviour
         {
             if (Input.GetKeyUp(KeyCode.E) && other.GetComponent<Player>().CoinCount() >= _requiredCoins)
             {
-                _callButton.material.color = Color.green;
+                if (_elevatorCalled == true)
+                {
+                    _callButton.material.color = Color.red;
+                }
+                else
+                {
+                    _callButton.material.color = Color.green;
+                    _elevatorCalled = true;
+                }
                 _elevator.CallElevator();
             }
         }
