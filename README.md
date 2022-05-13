@@ -6,3 +6,5 @@
 * Puzzles
 * Elevator
 * Wall Jumping
+* Movable box
+* Pressure Pad
