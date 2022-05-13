@@ -11,12 +11,14 @@ public class Player : MonoBehaviour
     [SerializeField] private float _gravity;
     [SerializeField] private float _jumpHeight= 5.0f;
     [SerializeField] private float _yVelocity;
-    private bool _canDoubleJump = false;
+    public bool _canDoubleJump = false;
+    private bool _canWallJump = false;
     private UIManager _uiManager;
     [SerializeField] private int _lives = 3;
     [SerializeField]private int _coins;
+    private Vector3 _direction, _velocity;
+    private Vector3 _wallSurfaceNormal;
 
-    // Start is called before the first frame update
     void Start()
     {
         _controller = GetComponent<CharacterController>();
@@ -30,7 +32,6 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLivesDisplay(_lives);
     }
 
-    // Update is called once per frame
     void Update()
     {
         PlayerMovement();
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(0);
         }
     }
-    // Return Type Method
     public int CoinCount()
     { 
     return _coins;
@@ -64,31 +64,55 @@ public class Player : MonoBehaviour
     public void PlayerMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        Vector3 direction = new Vector3(horizontalInput, 0, 0);
-        Vector3 velocity = direction * _speed;
 
         if (_controller.isGrounded == true)
         {
+            _canWallJump = true;
+            _direction = new Vector3(horizontalInput, 0, 0);
+            _velocity = _direction * _speed;
+
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 _yVelocity = _jumpHeight;
-                _canDoubleJump = true;
+                _canDoubleJump = false;
             }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && _canWallJump == false)
             {
-                _yVelocity += _jumpHeight;
-                _canDoubleJump = false;
+                if (_canDoubleJump == true)
+                {
+                    _yVelocity += _jumpHeight;
+                    _canDoubleJump = false;
+                }
             }
-            // older version of unity did not need Time.deltaTime
+
+            if (Input.GetKeyDown(KeyCode.Space) && _canWallJump == true)
+            {       // Jump Boost
+                    _yVelocity = _jumpHeight;
+                    // Wall Jump
+                    _velocity = _wallSurfaceNormal * _speed;
+            }
+
             _yVelocity -= _gravity * Time.deltaTime;
         }
 
-        velocity.y = _yVelocity;
+        _velocity.y = _yVelocity;
 
-        _controller.Move(velocity * Time.deltaTime);
+        _controller.Move(_velocity * Time.deltaTime);
 
     }
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (_controller.isGrounded == false && hit.transform.tag == "wall")
+        {
+            Debug.DrawRay(hit.point, hit.normal, Color.blue);
+            // grabing the calculation
+            _wallSurfaceNormal = hit.normal;
+            _canWallJump = true;
+
+        }
+    }
+
 }

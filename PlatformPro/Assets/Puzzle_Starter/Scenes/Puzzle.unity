@@ -2125,7 +2125,7 @@ PrefabInstance:
     - target: {fileID: 8739375539376734321, guid: 3a7f53b22d7c026499590234396e5fcd,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a7f53b22d7c026499590234396e5fcd, type: 3}
@@ -2685,6 +2685,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6013562509182714704, guid: 3a7f53b22d7c026499590234396e5fcd,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.0980217
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013562509182714704, guid: 3a7f53b22d7c026499590234396e5fcd,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.049010277
+      objectReference: {fileID: 0}
     - target: {fileID: 8739375539376734321, guid: 3a7f53b22d7c026499590234396e5fcd,
         type: 3}
       propertyPath: m_Name
@@ -2693,7 +2703,7 @@ PrefabInstance:
     - target: {fileID: 8739375539376734321, guid: 3a7f53b22d7c026499590234396e5fcd,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: wall
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a7f53b22d7c026499590234396e5fcd, type: 3}
@@ -3614,6 +3624,7 @@ MonoBehaviour:
   _gravity: 20
   _jumpHeight: 8
   _yVelocity: 0
+  _canDoubleJump: 0
   _lives: 3
   _coins: 0
 --- !u!143 &1798249447
@@ -3691,7 +3702,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1798249445}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3, y: 0, z: 0}
+  m_LocalPosition: {x: 22.51, y: 16.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 963194228}
