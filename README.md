@@ -4,3 +4,5 @@
 * Moving Platforms
 * Lives
 * Puzzles
+* Elevator
+* Wall Jumping
