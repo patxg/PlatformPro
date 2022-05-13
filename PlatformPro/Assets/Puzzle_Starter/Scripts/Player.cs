@@ -9,15 +9,16 @@ public class Player : MonoBehaviour
     private CharacterController _controller;
     [SerializeField] private float _speed;
     [SerializeField] private float _gravity;
-    [SerializeField] private float _jumpHeight= 5.0f;
+    [SerializeField] private float _jumpHeight = 5.0f;
     [SerializeField] private float _yVelocity;
     public bool _canDoubleJump = false;
     private bool _canWallJump = false;
     private UIManager _uiManager;
     [SerializeField] private int _lives = 3;
-    [SerializeField]private int _coins;
+    [SerializeField] private int _coins;
     private Vector3 _direction, _velocity;
     private Vector3 _wallSurfaceNormal;
+    private float _pushPower = 2.0f;
 
     void Start()
     {
@@ -89,9 +90,8 @@ public class Player : MonoBehaviour
             }
 
             if (Input.GetKeyDown(KeyCode.Space) && _canWallJump == true)
-            {       // Jump Boost
+            {       
                     _yVelocity = _jumpHeight;
-                    // Wall Jump
                     _velocity = _wallSurfaceNormal * _speed;
             }
 
@@ -105,10 +105,25 @@ public class Player : MonoBehaviour
     }
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        //Check Box
+        if (hit.transform.tag == "MovingBox")
+        {
+            // Confirm that box has RigidBody
+            Rigidbody box = hit.collider.GetComponent<Rigidbody>();
+            //Null Check
+            if (box != null)
+            {
+                Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, 0);
+                box.AddForce(pushDir);
+                //Apply Push
+                box.velocity = pushDir * _pushPower;
+            }
+        }
+
+        //Wall Jump
         if (_controller.isGrounded == false && hit.transform.tag == "wall")
         {
             Debug.DrawRay(hit.point, hit.normal, Color.blue);
-            // grabing the calculation
             _wallSurfaceNormal = hit.normal;
             _canWallJump = true;
 

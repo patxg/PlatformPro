@@ -6,6 +6,7 @@ TagManager:
   tags:
   - coin
   - wall
+  - MovingBox
   layers:
   - Default
   - TransparentFX
