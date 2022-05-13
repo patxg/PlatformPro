@@ -7,19 +7,14 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     private CharacterController _controller;
-    [SerializeField]
-    private float _speed = 5.0f;
-    [SerializeField]
-    private float _gravity = 1.0f;
-    [SerializeField]
-    private float _jumpHeight = 15.0f;
-    private float _yVelocity;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _gravity;
+    [SerializeField] private float _jumpHeight= 5.0f;
+    [SerializeField] private float _yVelocity;
     private bool _canDoubleJump = false;
-    [SerializeField]
-    private int _coins;
     private UIManager _uiManager;
-    [SerializeField]
-    private int _lives = 3;
+    [SerializeField] private int _lives = 3;
+    [SerializeField]private int _coins;
 
     // Start is called before the first frame update
     void Start()
@@ -44,29 +39,22 @@ public class Player : MonoBehaviour
 
         if (_controller.isGrounded == true)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.Space))
             {
                 _yVelocity = _jumpHeight;
-                _canDoubleJump = true;
+                //_canDoubleJump = true;
             }
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (_canDoubleJump == true)
-                {
-                    _yVelocity += _jumpHeight;
-                    _canDoubleJump = false;
-                }
-            }
-
-            _yVelocity -= _gravity;
+            // older version of unity did not need Time.deltaTime
+            _yVelocity -= _gravity * Time.deltaTime;
         }
 
         velocity.y = _yVelocity;
 
         _controller.Move(velocity * Time.deltaTime);
+
     }
 
     public void AddCoins()
